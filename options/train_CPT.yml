@@ -1,0 +1,114 @@
+# general settings
+name: CPT
+model_type: SRModel
+scale: 1
+num_gpu: auto
+manual_seed: 0
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: DIV2K
+    type: PairedImageDataset
+    # dataroot_gt: /data/wenjieli/ntire_raindrop/DayNight_RainDrop_Train/Clear
+    # dataroot_lq: /data/wenjieli/ntire_raindrop/DayNight_RainDrop_Train/Blur_Drop
+    # filename_tmpl: '{}'
+    # io_backend:
+    #   type: disk
+    dataroot_gt: /data/wenjieli/ntire_raindrop/DayNight_RainDrop_lmdb/Clear.lmdb
+    dataroot_lq: /data/wenjieli/ntire_raindrop/DayNight_RainDrop_lmdb/Blur_Drop.lmdb
+    io_backend:
+      type: lmdb
+
+    gt_size: 192
+    use_hflip: true
+    use_rot: true
+
+    # data loader
+    use_shuffle: true
+    num_worker_per_gpu: 6
+    batch_size_per_gpu: 2
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+
+  # --- validation
+  val_0:
+    name: Val
+    type: PairedImageDataset
+    dataroot_gt: /data/wenjieli/ntire_raindrop/val/Clear
+    dataroot_lq: /data/wenjieli/ntire_raindrop/val/Blur_Drop
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+
+# network structures
+# Large Setting: 90C-6G-4B-2FFNExpansion
+network_g:
+  type: Restormer
+
+
+# path
+path:
+  pretrain_network_g: ~
+  strict_load_g: true
+  resume_state: ~
+
+# all the training settings are based on SwinIR except for learning rate
+# training settings
+train:
+  ema_decay: 0.999
+  optim_g:
+    type: Adam
+    lr: !!float 5e-4
+    weight_decay: 0
+    betas: [0.9, 0.99]
+
+  scheduler:
+    type: MultiStepLR
+    milestones: [150000, 250000, 350000, 425000, 475000]
+    gamma: 0.5
+
+  total_iter: 500000
+  warmup_iter: -1  # no warm up
+
+  # losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1.0
+    reduction: mean
+
+  fft_opt:
+    type: FFTLoss
+    loss_weight: 0.1
+    reduction: mean
+
+  wave_opt:
+    type: MSELoss
+    loss_weight: 1.0
+    reduction: mean
+
+# validation settings
+val:
+  val_freq: !!float 1e4
+  save_img: false
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 4
+      test_y_channel: true
+
+# logging settings
+logger:
+  print_freq: 2000
+  save_checkpoint_freq: !!float 1e4
+  use_tb_logger: true
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500

@@ -1,0 +1,50 @@
+# general settings
+name: NTIRE_final_50
+model_type: SRModel
+scale: 1
+num_gpu: auto
+manual_seed: 0
+
+# dataset and data loader settings
+datasets:
+  val_1:
+    name: submission
+    type: PairedImageDataset
+    dataroot_gt: /data/wenjieli/ntire_raindrop/final_submission/
+    dataroot_lq: /data/wenjieli/ntire_raindrop/final_submission/
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+
+
+# network structures
+# Large Setting: 90C-6G-4B-2FFNExpansion
+network_g:
+  type: Restormer
+
+# path
+path:
+  pretrain_network_g: ./experiments/CPT/net_g_500000.pth
+  strict_load_g: true
+  resume_state: ~
+
+# validation settings
+val:
+  save_img: true
+  suffix: ~  # add suffix to saved images, if None, use exp name
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 4
+      test_y_channel: true
+    ssim:
+      type: calculate_ssim
+      crop_border: 4
+      test_y_channel: true
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 22144
