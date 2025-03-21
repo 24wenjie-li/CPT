@@ -33,11 +33,11 @@ pip install basicsr==1.4.2
 
 python setup.py develop -i http://mirrors.aliyun.com/pypi/simple/
 
-pip install -v -e .
-
 python -m pip install --upgrade pip
 
-numpy==1.24.4
+pip install numpy==1.24.4
+
+pip install -v -e .
 ```
 
 extra infos: 
