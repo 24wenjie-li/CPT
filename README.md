@@ -2,7 +2,7 @@
 
 <!-- ### [Paper (ArXiv)]() -->
 
-**This repository is the official pytorch implementation of our paper, *Consistent Patch Transformer for Dual-Focused Day and Night Raindrop Removal*.**
+**This repository is the official pytorch implementation of our method, *Consistent Patch Transformer for Dual-Focused Day and Night Raindrop Removal*.**
 
 [Wenjie Li](https://24wenjie-li.github.io/)<sup>1</sup>,
 [Zhenyu Jin]()<sup>1</sup>,
