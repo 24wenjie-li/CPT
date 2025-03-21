@@ -61,8 +61,7 @@ python basicsr/test.py -opt options/test_CPT.yml
 
 - **Pretrained models and visual results**
 
-| Results |                                                                                          Model Zoo                                                                                           |                                                                                         Visual Results                                                                                          |
-| Ours | [Google Drive](https://drive.google.com/file/d/1UnSgMt4WdcQVhhb-6S_cr7TbtQTiy-9g/view?usp=drive_link) | [Google Drive](https://drive.google.com/file/d/1ZjnuC7L73snKOleSlPmE4JRmTTzMH-L8/view?usp=drive_link)|
+| Ours | [Model Zoo Google Drive](https://drive.google.com/file/d/1UnSgMt4WdcQVhhb-6S_cr7TbtQTiy-9g/view?usp=drive_link) | [Visual Results Google Drive](https://drive.google.com/file/d/1ZjnuC7L73snKOleSlPmE4JRmTTzMH-L8/view?usp=drive_link)|
 
 
 ## Acknowledgement
